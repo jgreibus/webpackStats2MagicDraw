@@ -1,7 +1,11 @@
 package main.java.lt.jgreibus;
 
-import com.nomagic.magicdraw.core.Application;
+import com.nomagic.actions.ActionsCategory;
+import com.nomagic.actions.NMAction;
+import com.nomagic.magicdraw.actions.ActionsConfiguratorsManager;
 import com.nomagic.magicdraw.plugins.Plugin;
+import main.java.lt.jgreibus.actions.ImportStatsAction;
+import main.java.lt.jgreibus.actions.configurators.ActionImportStatsConfigurator;
 
 public class Main extends Plugin
 {
@@ -10,8 +14,9 @@ public class Main extends Plugin
 	@Override
 	public void init()
 	{
-		initialized = true;
-		Application.getInstance().getGUILog().showMessage("My Plug-in 1 initialized.");
+		ActionsConfiguratorsManager manager = ActionsConfiguratorsManager.getInstance();
+		manager.addMainMenuConfigurator(new ActionImportStatsConfigurator(getMenuActions()));
+
 	}
 
 	@Override
@@ -24,5 +29,11 @@ public class Main extends Plugin
 	public boolean isSupported()
 	{
 		return true;
+	}
+
+	private NMAction getMenuActions() {
+		ActionsCategory category = new ActionsCategory(null, "");
+		category.addAction(new ImportStatsAction("ImportWebpackStats", "Import WebPack Stats"));
+		return category;
 	}
 }

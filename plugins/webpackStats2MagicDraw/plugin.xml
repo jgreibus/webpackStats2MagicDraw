@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin
-        id="myplugin1"
-        name="My Plug-in 1"
+        id="webpackStatsImport"
+        name="Webpack Stats Importer"
         version="1.0"
-        provider-name="No Magic"
+        provider-name="lt.jgreibus"
         class="main.java.lt.jgreibus.Main">
 
     <requires>
@@ -11,6 +11,6 @@
     </requires>
 
     <runtime>
-        <library name="myplugin1.jar"/>
+        <library name="webpackstats_importer.jar"/>
     </runtime>
 </plugin>

@@ -32,6 +32,7 @@ public class ExtractElementData {
                 componentList.add(new Component(m.get("name").toString(), m.get("id").toString(), m.get("identifier").toString()));
                 System.out.println("===============");
                 System.out.println(m.get("id"));
+                System.out.println(m.get("identifier"));
                 JsonArray reasons = m.getAsJsonArray("reasons");
 
                 for (Object reason : reasons) {
@@ -47,7 +48,7 @@ public class ExtractElementData {
 
         for (int i = 0; i < componentList.size(); i++) {
             System.out.println("=================");
-            System.out.println(componentList.get(i).id + " " + componentList.get(i).name);
+            System.out.println(componentList.get(i).id + " " + componentList.get(i).name + " || " + componentList.get(i).identifier);
         }
     }
 

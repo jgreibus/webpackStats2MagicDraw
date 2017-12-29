@@ -22,4 +22,9 @@ public class ImportStatsAction extends MDAction {
         addProjectWindow(projectManager);
 
     }
+
+    @Override
+    public void updateState() {
+        setEnabled(Application.getInstance().getProject() != null);
+    }
 }

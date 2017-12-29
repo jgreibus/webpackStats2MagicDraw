@@ -11,8 +11,8 @@ public class ImporterPanelContent implements WindowComponentContent {
     private JPanel mPanel;
 
     public ImporterPanelContent() {
-        mPanel = new JPanel();
-        mPanel.add(new FileChooser());
+        mPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        mPanel.add(new FileSelectionPanel());
     }
 
     @Override

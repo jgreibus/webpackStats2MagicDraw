@@ -10,24 +10,27 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-public class FileChooser extends JPanel implements ActionListener {
+import static main.java.lt.jgreibus.ExtractElementData.parseStatsJSON;
+
+public class FileSelectionPanel extends JPanel implements ActionListener {
 
     JButton openButton;
     JFileChooser fc;
 
-    public FileChooser() {
+    public FileSelectionPanel() {
 
         super(new BorderLayout());
 
         fc = new JFileChooser();
-        fc.setDialogTitle("Select file for webapack stats");
+        fc.setDialogTitle("Select file for webapack stats:");
         FileNameExtensionFilter filer = new FileNameExtensionFilter(".json", "json");
         fc.setFileFilter(filer);
 
         openButton = new JButton("Open a File...");
         openButton.addActionListener(this);
 
-        JPanel buttonPanel = new JPanel();
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        buttonPanel.add(new JLabel("Select the Webpack Stats file"));
         buttonPanel.add(openButton);
 
         add(buttonPanel, BorderLayout.PAGE_START);
@@ -43,6 +46,7 @@ public class FileChooser extends JPanel implements ActionListener {
             if (val == JFileChooser.APPROVE_OPTION) {
                 File file = fc.getSelectedFile();
                 NotificationManager.getInstance().openNotificationWindow(new Notification(null, "File " + file.getName() + " has been selected for webpack stats import."), true);
+                parseStatsJSON(file);
             } else {
                 NotificationManager.getInstance().openNotificationWindow(new Notification(null, "Open dialog has been closed by user. File for webpack stats import is not selected."), false);
             }

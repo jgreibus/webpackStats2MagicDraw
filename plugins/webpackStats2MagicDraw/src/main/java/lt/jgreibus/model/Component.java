@@ -5,7 +5,7 @@ public class Component {
     public String id;
     public String identifier;
 
-    public Component(String name, String id, String identifer) {
+    public Component(String name, String id, String identifier) {
         this.name = name;
         this.id = id;
         this.identifier = identifier;

@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 
+import static main.java.lt.jgreibus.CreateElements.createDependencies;
 import static main.java.lt.jgreibus.CreateElements.createElements;
 
 public class ExtractElementData {
@@ -20,36 +21,40 @@ public class ExtractElementData {
 
         JsonParser parser = new JsonParser();
         ArrayList<Component> componentList = new ArrayList<>();
+        JsonArray modules = new JsonArray();
 
         try {
             Object object = parser.parse(new FileReader(statsFile));
             JsonObject json = (JsonObject) object;
 
-            JsonArray modules = (JsonArray) json.get("modules");
+            modules = (JsonArray) json.get("modules");
 
             for (Object module : modules) {
                 JsonObject m = (JsonObject) module;
                 componentList.add(new Component(m.get("name").toString(), m.get("id").toString(), m.get("identifier").toString()));
-                System.out.println("===============");
-                System.out.println(m.get("id"));
-                System.out.println(m.get("identifier"));
-                JsonArray reasons = m.getAsJsonArray("reasons");
 
-                for (Object reason : reasons) {
-                    System.out.println(reason);
-                }
+
             }
 
         } catch (FileNotFoundException e) {
             NotificationManager.getInstance().openNotificationWindow(new Notification(null, e.getMessage()), false);
         }
-
         createElements(componentList);
-
-        for (int i = 0; i < componentList.size(); i++) {
-            System.out.println("=================");
-            System.out.println(componentList.get(i).id + " " + componentList.get(i).name + " || " + componentList.get(i).identifier);
-        }
+        collectDependencies(modules);
     }
 
+    private static void collectDependencies(JsonArray modules) {
+
+        for (Object module : modules) {
+            ArrayList<String> clients = new ArrayList<>();
+            JsonObject m = (JsonObject) module;
+            JsonArray reasons = m.getAsJsonArray("reasons");
+
+            for (Object reason : reasons) {
+                JsonObject r = (JsonObject) reason;
+                clients.add(r.get("moduleId").toString());
+            }
+            if (clients.size() > 0) createDependencies(m.get("id").toString(), clients);
+        }
+    }
 }

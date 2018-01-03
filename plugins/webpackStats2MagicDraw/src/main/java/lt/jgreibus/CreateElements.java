@@ -8,7 +8,6 @@ import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mddependencies.Dependency;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
@@ -52,11 +51,7 @@ public class CreateElements {
             StereotypesHelper.setStereotypePropertyValue(c, stereotype, "identifier", (Object) identifier);
             StereotypesHelper.setStereotypePropertyValue(c, stereotype, "target_version", version);
         }
-        if (documentation.length() > 0) {
-            Comment comment = factory.createCommentInstance();
-            comment.setBody(documentation);
-            comment.setOwner(c);
-        }
+        ModelHelper.setComment(c, documentation);
 
         SessionManager.getInstance().closeSession(project);
     }

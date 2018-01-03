@@ -77,9 +77,7 @@ public class ExtractElementData {
         }
 
         int endIndex = indexList.get((indexList.indexOf(initialIndex)) + 1);
-        System.out.println("===============================");
-        System.out.println(metadatItem + "  value: " + sourceObject.substring(initialIndex, endIndex).replace("@" + metadatItem + " ", ""));
-        System.out.println("+++++++++++++++++++++++++++++++++");
+
         return sourceObject.substring(initialIndex, endIndex).replace("@" + metadatItem + " ", "");
     }
 }

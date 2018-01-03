@@ -12,3 +12,7 @@ repositories {
 dependencies {
     compile 'com.googlecode.json-simple:json-simple:1.1.1'
 }
+
+task dist(type:Zip){
+    from jar.outputs.files
+}

@@ -4,11 +4,15 @@ public class Component {
     public String name;
     public String id;
     public String identifier;
+    public String documentation;
+    public String version;
 
-    public Component(String name, String id, String identifier) {
+    public Component(String name, String id, String identifier, String documentation, String version) {
         this.name = name;
         this.id = id;
         this.identifier = identifier;
+        this.documentation = documentation;
+        this.version = version;
     }
 
     public String getName() {
@@ -33,5 +37,21 @@ public class Component {
 
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
+    }
+
+    public String getDocumentation() {
+        return documentation;
+    }
+
+    public void setDocumentation(String documentation) {
+        this.documentation = documentation;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 }

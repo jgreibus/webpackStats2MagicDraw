@@ -8,6 +8,7 @@ import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mddependencies.Dependency;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Comment;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.NamedElement;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
@@ -30,11 +31,13 @@ public class CreateElements {
         ArrayList<Component> list = new ArrayList<>(elementList);
         Element owner = (Element) SelectElementDlg.getSelectedElement();
         for (int i = 0; i < list.size(); i++) {
-            createComponentElement(owner, list.get(i).name, list.get(i).id, list.get(i).identifier);
+            createComponentElement(owner, list.get(i).name, list.get(i).id, list.get(i).identifier, list.get(i).documentation, list.get(i).version);
+            System.out.println("Documentation: " + list.get(i).documentation);
+            System.out.println("Version: " + list.get(i).version);
         }
     }
 
-    private static void createComponentElement(Element owner, String subject, String id, String identifier) {
+    private static void createComponentElement(Element owner, String subject, String id, String identifier, String documentation, String version) {
 
         SessionManager.getInstance().createSession(project, "Creating element with name: " + subject + " under " + owner.getHumanName());
 
@@ -42,10 +45,17 @@ public class CreateElements {
         c.setOwner(owner);
         String subjectItems[] = subject.split("/");
         c.setName(subjectItems[subjectItems.length - 1].replace("\"", ""));
+
         if (StereotypesHelper.canAssignStereotype(c, stereotype)) {
             StereotypesHelper.addStereotype(c, stereotype);
             StereotypesHelper.setStereotypePropertyValue(c, stereotype, "id", (Object) id);
             StereotypesHelper.setStereotypePropertyValue(c, stereotype, "identifier", (Object) identifier);
+            StereotypesHelper.setStereotypePropertyValue(c, stereotype, "target_version", version);
+        }
+        if (documentation.length() > 0) {
+            Comment comment = factory.createCommentInstance();
+            comment.setBody(documentation);
+            comment.setOwner(c);
         }
 
         SessionManager.getInstance().closeSession(project);

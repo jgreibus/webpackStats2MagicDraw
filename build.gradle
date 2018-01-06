@@ -9,10 +9,85 @@ repositories {
     mavenCentral()
 }
 
+def projectName = 'WebpackStats2MagicDraw'
+def projectDescription = ''
+def projectHomePage = 'www.jgreibus.lt'
+def getVersion = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'describe', '--tags'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+def projectID = ''
+def projectCoreVersion=''
+def mainClass = ''
+
+
 dependencies {
     compile 'com.googlecode.json-simple:json-simple:1.1.1'
 }
 
-task dist(type:Zip){
-    from jar.outputs.files
+task buildPluginZip(type: Zip, dependsOn: 'jar') {
+    baseName = projectName
+
+    from fileTree('plugins/webpackStats2MagicDraw/resources') // do not specify directory
+
+    from (tasks.jar.archivePath) {
+        into 'plugins/lt.jgreibus.webpackStats2MagicDraw'
+    }
+}
+
+task generateResourceManagerDescriptor {
+    def dateTime = new Date()
+    def date = dateTime.getDateString()
+
+    File file = new File('plugins/webpackStats2MagicDraw/resources/data/resourcemanager/MDR_Plugin_'+projectName+'_descriptor.xml')
+    StringBuilder sb = new StringBuilder()
+    sb.append("<resourceDescriptor\ncritical=\"false\"\n")
+    sb.append("date=\""+date+"\"\n")
+    sb.append("description=\""+projectDescription+"\"\n")
+    sb.append("homePage=\""+projectHomePage+"\"\n")
+    sb.append("id=\""+projectID+"\"\n")
+    sb.append("mdVersionMax=\"higher\"\n")
+    sb.append("mdVersionMin=\""+projectCoreVersion+"\"\n")
+    sb.append("name=\""+projectName+"Plugin\"\n")
+    sb.append("product=\""+projectName+"Plugin\"\n")
+    sb.append("type=\"Plugin\">\n")
+
+    sb.append("<version human=\""+getVersion+"\" internal=\""+getVersion+"\" resource=\""+getVersion+"\"/>")
+    sb.append("<provider=\""+projectHomePage+"\"")
+    sb.append("<edition>Enterprise</edition>\n" +
+            "<edition>Enterprise</edition>\n" +
+            "<edition>Architect</edition>\n" +
+            "<edition>Standard</edition>\n" +
+            "<edition>Professional Java</edition>\n" +
+            "<edition>Professional C++</edition>\n" +
+            "<edition>Professional C#</edition>\n" +
+            "<edition>Professional ArcStyler</edition>\n" +
+            "<edition>Reader</edition>\n" +
+            "<edition>OptimalJ</edition>\n")
+    sb.append("<installation>\n")
+    sb.append("<file from=\"profiles/webpack_profile.mdxml\" to=\"profiles/webpack_profile.mdxml\" />\n")
+    sb.append("<file from=\"plugins/customPlugin/*.*\" to=\"plugins/customPlugin/*.*\" />\n")
+    sb.append("<file from=\"data/resourcemanager/MDR_Plugin_"+projectName+"_descriptor.xml\" to=\"data/resourcemanager/MDR_Plugin_"+projectName+"_descriptor.xml\" />\n")
+    sb.append(" </installation>\n" +
+            "</resourceDescriptor>")
+    file.write(sb.toString())
+}
+
+task generatePluginDescriptor{
+    File file = new File('plugins/webpackStats2MagicDraw/resources/plugins/lt.jgreibus.webpackStats2MagicDraw/plugin.xml')
+    StringBuilder sb = new StringBuilder()
+    sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+    sb.append("<plugin id=\""+projectName+"\" name=\""+projectName+"\" version=\""+getVersion+"\" provider-name=\""+projectHomePage+"\" class=\""+mainClass+"\"\n")
+    sb.append("    <requires>\n" +
+            "    <api version=\"1.0\"/>\n" +
+            "    </requires>\n" +
+            "    <runtime>\n" +
+            "    <library name=\""+projectName+".jar\"/>\n" +
+            "    </runtime>\n" +
+            "    </plugin>")
+    file.write(sb.toString())
 }

@@ -18,30 +18,48 @@ public class ExtractElementData {
     public static void parseStatsJSON(File statsFile) {
 
         JsonParser parser = new JsonParser();
-        ArrayList<Component> componentList = new ArrayList<>();
-        JsonArray modules = new JsonArray();
 
         try {
             Object object = parser.parse(new FileReader(statsFile));
             JsonObject json = (JsonObject) object;
 
-            if (json.get("modules").toString().length() > 0) {
-                modules = (JsonArray) json.get("modules");
-
-                for (Object module : modules) {
-                    JsonObject m = (JsonObject) module;
-                    componentList.add(new Component(m.get("name").toString(),
-                            m.get("id").toString(),
-                            m.get("identifier").toString(),
-                            extractMetadataValue(m, "description"),
-                            extractMetadataValue(m, "target-version")));
-                }
+            collectComponentList(json);
+            if (extractModules(json) == null) {
+                throw new NullPointerException();
+            } else {
+                collectDependencies(extractModules(json));
             }
         } catch (FileNotFoundException | JsonIOException | JsonSyntaxException e) {
             NotificationManager.getInstance().openNotificationWindow(new Notification(null, e.getMessage()), false);
         }
-        createElements(componentList);
-        collectDependencies(modules);
+    }
+
+    private static void collectComponentList(JsonObject json) {
+        ArrayList<Component> componentList = new ArrayList<>();
+
+        if (extractModules(json) == null) {
+            throw new NullPointerException();
+        } else {
+            for (Object module : extractModules(json)) {
+                JsonObject m = (JsonObject) module;
+                componentList.add(new Component(m.get("name").toString(),
+                        m.get("id").toString(),
+                        m.get("identifier").toString(),
+                        extractMetadataValue(m, "description"),
+                        extractMetadataValue(m, "target-version")));
+            }
+            if (componentList.size() > 0) createElements(componentList);
+        }
+    }
+
+    private static JsonArray extractModules(JsonObject json) {
+
+        JsonArray modules;
+        if (json.get("modules").toString().length() > 0) {
+            modules = (JsonArray) json.get("modules");
+            return modules;
+        }
+        return null;
     }
 
     private static void collectDependencies(JsonArray modules) {
@@ -62,7 +80,7 @@ public class ExtractElementData {
     private static String extractMetadataValue(JsonObject source, String metadatItem) {
         String sourceObject = source.get("source").getAsString();
         ArrayList<Integer> indexList = new ArrayList<>();
-        int initialIndex = 0;
+        int initialIndex;
         if (sourceObject.contains("@" + metadatItem)) {
             initialIndex = sourceObject.indexOf("@" + metadatItem);
         } else {

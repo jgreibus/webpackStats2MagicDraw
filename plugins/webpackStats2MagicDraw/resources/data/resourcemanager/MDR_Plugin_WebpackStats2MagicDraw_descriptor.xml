@@ -1,0 +1,27 @@
+<resourceDescriptor
+critical="false"
+date="1/7/18"
+description=""
+homePage="www.jgreibus.lt"
+id=""
+mdVersionMax="higher"
+mdVersionMin=""
+name="WebpackStats2MagicDrawPlugin"
+product="WebpackStats2MagicDrawPlugin"
+type="Plugin">
+<version human="build_4ndwf414mc98jx3bdg3vo6bee$_run_closure2@71225466" internal="build_4ndwf414mc98jx3bdg3vo6bee$_run_closure2@71225466" resource="build_4ndwf414mc98jx3bdg3vo6bee$_run_closure2@71225466"/><provider name="www.jgreibus.lt"/><edition>Enterprise</edition>
+<edition>Enterprise</edition>
+<edition>Architect</edition>
+<edition>Standard</edition>
+<edition>Professional Java</edition>
+<edition>Professional C++</edition>
+<edition>Professional C#</edition>
+<edition>Professional ArcStyler</edition>
+<edition>Reader</edition>
+<edition>OptimalJ</edition>
+<installation>
+<file from="profiles/webpack_profile.mdxml" to="profiles/webpack_profile.mdxml" />
+<file from="plugins/customPlugin/*.*" to="plugins/customPlugin/*.*" />
+<file from="data/resourcemanager/MDR_Plugin_WebpackStats2MagicDraw_descriptor.xml" to="data/resourcemanager/MDR_Plugin_WebpackStats2MagicDraw_descriptor.xml" />
+ </installation>
+</resourceDescriptor>

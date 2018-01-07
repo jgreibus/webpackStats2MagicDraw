@@ -57,7 +57,7 @@ task generateResourceManagerDescriptor {
     sb.append("type=\"Plugin\">\n")
 
     sb.append("<version human=\""+getVersion+"\" internal=\""+getVersion+"\" resource=\""+getVersion+"\"/>")
-    sb.append("<provider=\""+projectHomePage+"\"")
+    sb.append("<provider name=\""+projectHomePage+"\"/>")
     sb.append("<edition>Enterprise</edition>\n" +
             "<edition>Enterprise</edition>\n" +
             "<edition>Architect</edition>\n" +
@@ -81,7 +81,7 @@ task generatePluginDescriptor{
     File file = new File('plugins/webpackStats2MagicDraw/resources/plugins/lt.jgreibus.webpackStats2MagicDraw/plugin.xml')
     StringBuilder sb = new StringBuilder()
     sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
-    sb.append("<plugin id=\""+projectName+"\" name=\""+projectName+"\" version=\""+getVersion+"\" provider-name=\""+projectHomePage+"\" class=\""+mainClass+"\"\n")
+    sb.append("<plugin id=\""+projectName+"\" name=\""+projectName+"\" version=\""+getVersion+"\" provider-name=\""+projectHomePage+"\" class=\""+mainClass+"\">\n")
     sb.append("    <requires>\n" +
             "    <api version=\"1.0\"/>\n" +
             "    </requires>\n" +

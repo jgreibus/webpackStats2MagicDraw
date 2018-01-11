@@ -20,20 +20,22 @@ def getVersion = { ->
     }
     return stdout.toString().trim()
 }
-def projectID = ''
-def projectCoreVersion=''
-def mainClass = ''
+def projectID = 'webpackStatsID'
+def projectCoreVersion='18.5'
+def mainClass = 'lt.jgreibus.Main'
 
 
 dependencies {
     compile 'com.googlecode.json-simple:json-simple:1.1.1'
+    compile fileTree(dir: 'C:\\MagicDraw_185_sp2_no_install\\lib', include: ['*.jar'])
+    compile fileTree(dir: 'C:\\MagicDraw_185_sp2_no_install\\lib', include: ['**/*.jar'])
+    compile fileTree(dir: 'C:\\MagicDraw_185_sp2_no_install\\lib', include: ['**/**/*.jar'])
 }
 
-task buildPluginZip(type: Zip, dependsOn: 'jar') {
+task buildPluginZip(type: Zip, dependsOn: ['generateResourceManagerDescriptor', 'jar', 'generatePluginDescriptor']) {
+
     baseName = projectName
-
-    from fileTree('plugins/webpackStats2MagicDraw/resources') // do not specify directory
-
+    from fileTree('src/main/resources') // do not specify directory
     from (tasks.jar.archivePath) {
         into 'plugins/lt.jgreibus.webpackStats2MagicDraw'
     }
@@ -43,7 +45,7 @@ task generateResourceManagerDescriptor {
     def dateTime = new Date()
     def date = dateTime.getDateString()
 
-    File file = new File('plugins/webpackStats2MagicDraw/resources/data/resourcemanager/MDR_Plugin_'+projectName+'_descriptor.xml')
+    File file = new File('src/main/resources/data/resourcemanager/MDR_Plugin_'+projectName+'_descriptor.xml')
     StringBuilder sb = new StringBuilder()
     sb.append("<resourceDescriptor\ncritical=\"false\"\n")
     sb.append("date=\""+date+"\"\n")
@@ -78,7 +80,7 @@ task generateResourceManagerDescriptor {
 }
 
 task generatePluginDescriptor{
-    File file = new File('plugins/webpackStats2MagicDraw/resources/plugins/lt.jgreibus.webpackStats2MagicDraw/plugin.xml')
+    File file = new File('src/main/resources/plugins/lt.jgreibus.webpackStats2MagicDraw/plugin.xml')
     StringBuilder sb = new StringBuilder()
     sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
     sb.append("<plugin id=\""+projectName+"\" name=\""+projectName+"\" version=\""+getVersion+"\" provider-name=\""+projectHomePage+"\" class=\""+mainClass+"\">\n")

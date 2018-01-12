@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin class="lt.jgreibus.Main" id="WebpackStats2MagicDraw" name="WebpackStats2MagicDraw"
+        provider-name="www.jgreibus.lt" version="${version}">
+    <requires>
+        <api version="1.0"/>
+    </requires>
+    <runtime>
+        <library name="WebpackStats2MagicDraw.jar"/>
+    </runtime>
+</plugin>

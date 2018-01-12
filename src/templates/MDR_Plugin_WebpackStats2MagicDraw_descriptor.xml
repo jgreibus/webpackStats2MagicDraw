@@ -1,0 +1,18 @@
+<resourceDescriptor critical="false" date="${date}" description="" homePage="www.jgreibus.lt" id="1985"
+                    mdVersionMax="higher" mdVersionMin="18.5" name="WebpackStats2MagicDrawPlugin"
+                    product="WebpackStats2MagicDrawPlugin" type="Plugin">
+    <version human="${version}" internal="${version}" resource="${version}"/>
+    <provider name="www.jgreibus.lt"/>
+    <edition>Enterprise</edition>
+    <edition>Architect</edition>
+    <edition>Standard</edition>
+    <installation>
+        <file from="profiles/webpack_profile.mdxml" to="profiles/webpack_profile.mdxml"/>
+        <file from="plugins/lt.jgreibus.webpackStats2MagicDraw/plugin.xml"
+              to="plugins/lt.jgreibus.webpackStats2MagicDraw/plugin.xml"/>
+        <file from="plugins/lt.jgreibus.webpackStats2MagicDraw/WebpackStats2MagicDraw.jar"
+              to="plugins/lt.jgreibus.webpackStats2MagicDraw/WebpackStats2MagicDraw.jar"/>
+        <file from="data/resourcemanager/MDR_Plugin_WebpackStats2MagicDraw_descriptor.xml"
+              to="data/resourcemanager/MDR_Plugin_WebpackStats2MagicDraw_descriptor.xml"/>
+    </installation>
+</resourceDescriptor>

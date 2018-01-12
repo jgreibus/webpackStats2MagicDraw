@@ -5,6 +5,8 @@ apply plugin: 'distribution'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+def MAGIC_DRAW_DIR = System.getenv('MAGIC_DRAW_INSTLLATION_DIR')
+
 repositories {
     mavenCentral()
 }
@@ -30,70 +32,29 @@ def mainClass = 'lt.jgreibus.Main'
 
 dependencies {
     compile 'com.googlecode.json-simple:json-simple:1.1.1'
-    compile fileTree(dir: 'C:\\MagicDraw_185_sp2_no_install\\lib', include: ['*.jar'])
-    compile fileTree(dir: 'C:\\MagicDraw_185_sp2_no_install\\lib', include: ['**/*.jar'])
-    compile fileTree(dir: 'C:\\MagicDraw_185_sp2_no_install\\lib', include: ['**/**/*.jar'])
+    compile fileTree(dir: MAGIC_DRAW_DIR+'\\lib', include: ['*.jar'])
+    compile fileTree(dir: MAGIC_DRAW_DIR+'\\lib', include: ['**/*.jar'])
+    compile fileTree(dir: MAGIC_DRAW_DIR+'\\lib', include: ['**/**/*.jar'])
 }
 
-task buildPluginZip(type: Zip, dependsOn: ['generateResourceManagerDescriptor', 'jar', 'generatePluginDescriptor']) {
+task buildPluginZip(type: Zip, dependsOn: ['jar', 'copyPluginDescriptor', 'copyResourceDescriptor']) {
 
     baseName = projectName
-    from fileTree('src/main/resources') // do not specify directory
+
+    from fileTree('src/main/resources')
     from (tasks.jar.archivePath) {
         into 'plugins/lt.jgreibus.webpackStats2MagicDraw'
     }
 }
 
-task generateResourceManagerDescriptor {
-    def dateTime = new Date()
-    def date = dateTime.getDateString()
-
-    File file = new File('src/main/resources/data/resourcemanager/MDR_Plugin_'+projectName+'_descriptor.xml')
-    StringBuilder sb = new StringBuilder()
-    sb.append("<resourceDescriptor\ncritical=\"false\"\n")
-    sb.append("date=\""+date+"\"\n")
-    sb.append("description=\""+projectDescription+"\"\n")
-    sb.append("homePage=\""+projectHomePage+"\"\n")
-    sb.append("id=\""+projectID+"\"\n")
-    sb.append("mdVersionMax=\"higher\"\n")
-    sb.append("mdVersionMin=\""+projectCoreVersion+"\"\n")
-    sb.append("name=\""+projectName+"Plugin\"\n")
-    sb.append("product=\""+projectName+"Plugin\"\n")
-    sb.append("type=\"Plugin\">\n")
-
-    sb.append("<version human=\""+getVersion+"\" internal=\""+getVersion+"\" resource=\""+getVersion+"\"/>")
-    sb.append("<provider name=\""+projectHomePage+"\"/>")
-    sb.append("<edition>Enterprise</edition>\n" +
-            "<edition>Enterprise</edition>\n" +
-            "<edition>Architect</edition>\n" +
-            "<edition>Standard</edition>\n" +
-            "<edition>Professional Java</edition>\n" +
-            "<edition>Professional C++</edition>\n" +
-            "<edition>Professional C#</edition>\n" +
-            "<edition>Professional ArcStyler</edition>\n" +
-            "<edition>Reader</edition>\n" +
-            "<edition>OptimalJ</edition>\n")
-    sb.append("<installation>\n")
-    sb.append("<file from=\"profiles/webpack_profile.mdxml\" to=\"profiles/webpack_profile.mdxml\" />\n")
-    sb.append("<file from=\"plugins/lt.jgreibus.webpackStats2MagicDraw/plugin.xml\" to=\"plugins/lt.jgreibus.webpackStats2MagicDraw/plugin.xml\" />\n")
-    sb.append("<file from=\"plugins/lt.jgreibus.webpackStats2MagicDraw/"+projectName+".jar\" to=\"plugins/lt.jgreibus.webpackStats2MagicDraw/"+projectName+".jar\" />\n")
-    sb.append("<file from=\"data/resourcemanager/MDR_Plugin_"+projectName+"_descriptor.xml\" to=\"data/resourcemanager/MDR_Plugin_"+projectName+"_descriptor.xml\" />\n")
-    sb.append(" </installation>\n" +
-            "</resourceDescriptor>")
-    file.write(sb.toString())
+task copyPluginDescriptor(type: Copy){
+    from 'src/templates/plugin.xml'
+    into 'src/main/resources/plugins/lt.jgreibus.webpackStats2MagicDraw'
+    expand(version: '0.1')
 }
 
-task generatePluginDescriptor{
-    File file = new File('src/main/resources/plugins/lt.jgreibus.webpackStats2MagicDraw/plugin.xml')
-    StringBuilder sb = new StringBuilder()
-    sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
-    sb.append("<plugin id=\""+projectName+"\" name=\""+projectName+"\" version=\""+getVersion+"\" provider-name=\""+projectHomePage+"\" class=\""+mainClass+"\">\n")
-    sb.append("    <requires>\n" +
-            "    <api version=\"1.0\"/>\n" +
-            "    </requires>\n" +
-            "    <runtime>\n" +
-            "    <library name=\""+projectName+".jar\"/>\n" +
-            "    </runtime>\n" +
-            "    </plugin>")
-    file.write(sb.toString())
+task copyResourceDescriptor(type: Copy){
+    from 'src/templates/MDR_Plugin_WebpackStats2MagicDraw_descriptor.xml'
+    into 'src/main/resources/data/resourcemanager'
+    expand(date: new Date(), version: '0.1')
 }

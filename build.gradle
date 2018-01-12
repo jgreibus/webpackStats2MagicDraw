@@ -12,15 +12,18 @@ repositories {
 def projectName = 'WebpackStats2MagicDraw'
 def projectDescription = ''
 def projectHomePage = 'www.jgreibus.lt'
-def getVersion = { ->
-    def stdout = new ByteArrayOutputStream()
-    exec {
-        commandLine 'git', 'describe', '--tags'
-        standardOutput = stdout
-    }
-    return stdout.toString().trim()
-}
-def projectID = 'webpackStatsID'
+def getVersion = '0.1'
+def pluginDestination = 'lt.jgreibus.webpackStats2MagicDraw'
+
+//        { ->
+//    def stdout = new ByteArrayOutputStream()
+//    exec {
+//        commandLine 'git', 'describe', '--tags'
+//        standardOutput = stdout
+//    }
+//    return stdout.toString().trim()
+//}
+def projectID = '1985'
 def projectCoreVersion='18.5'
 def mainClass = 'lt.jgreibus.Main'
 
@@ -72,7 +75,8 @@ task generateResourceManagerDescriptor {
             "<edition>OptimalJ</edition>\n")
     sb.append("<installation>\n")
     sb.append("<file from=\"profiles/webpack_profile.mdxml\" to=\"profiles/webpack_profile.mdxml\" />\n")
-    sb.append("<file from=\"plugins/customPlugin/*.*\" to=\"plugins/customPlugin/*.*\" />\n")
+    sb.append("<file from=\"plugins/lt.jgreibus.webpackStats2MagicDraw/plugin.xml\" to=\"plugins/lt.jgreibus.webpackStats2MagicDraw/plugin.xml\" />\n")
+    sb.append("<file from=\"plugins/lt.jgreibus.webpackStats2MagicDraw/"+projectName+".jar\" to=\"plugins/lt.jgreibus.webpackStats2MagicDraw/"+projectName+".jar\" />\n")
     sb.append("<file from=\"data/resourcemanager/MDR_Plugin_"+projectName+"_descriptor.xml\" to=\"data/resourcemanager/MDR_Plugin_"+projectName+"_descriptor.xml\" />\n")
     sb.append(" </installation>\n" +
             "</resourceDescriptor>")

@@ -1,6 +1,12 @@
+plugins {
+    id "com.jfrog.bintray" version "1.8.0"
+}
+
 apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'distribution'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -11,26 +17,18 @@ repositories {
     mavenCentral()
 }
 
-def projectName = 'WebpackStats2MagicDraw'
+def projectName = 'webpackStats2MagicDraw'
 def projectDescription = ''
 def projectHomePage = 'www.jgreibus.lt'
 def getVersion = '0.1'
 def pluginDestination = 'lt.jgreibus.webpackStats2MagicDraw'
 
-//        { ->
-//    def stdout = new ByteArrayOutputStream()
-//    exec {
-//        commandLine 'git', 'describe', '--tags'
-//        standardOutput = stdout
-//    }
-//    return stdout.toString().trim()
-//}
 def projectID = '1985'
 def projectCoreVersion='18.5'
 def mainClass = 'lt.jgreibus.Main'
 
-
 dependencies {
+    //compile 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
     compile 'com.googlecode.json-simple:json-simple:1.1.1'
     compile fileTree(dir: MAGIC_DRAW_DIR+'\\lib', include: ['*.jar'])
     compile fileTree(dir: MAGIC_DRAW_DIR+'\\lib', include: ['**/*.jar'])
@@ -58,3 +56,39 @@ task copyResourceDescriptor(type: Copy){
     into 'src/main/resources/data/resourcemanager'
     expand(date: new Date(), version: '0.1')
 }
+
+bintray {
+    user = ''
+    key = ''
+    publications = ['MyPublication']
+    publish = true
+    pkg {
+        repo = 'webpack2MagicDraw'
+        name = projectName
+        licenses = ['GPL-2.0']
+        vcsUrl = 'https://github.com/jgreibus/webpackStats2MagicDraw.git'
+        version{
+            name = getVersion
+        }
+    }
+}
+
+publishing {
+    publications {
+        MyPublication(MavenPublication) {
+            from components.java
+            groupId 'lt.jgreibus'
+            artifactId 'lt.jgreibus-webpack2MagicDraw'
+            version '0.1'
+            artifact buildPluginZip {
+                classifier "plugin"
+            }
+        }
+    }
+}
+
+artifacts {
+    archives buildPluginZip
+}
+
+

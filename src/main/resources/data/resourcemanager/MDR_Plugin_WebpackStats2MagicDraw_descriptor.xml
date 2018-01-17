@@ -1,18 +1,19 @@
-<resourceDescriptor critical="false" date="Fri Jan 12 10:49:59 EET 2018" description="" homePage="www.jgreibus.lt"
-                    id="1985" mdVersionMax="higher" mdVersionMin="18.5" name="WebpackStats2MagicDrawPlugin"
+<resourceDescriptor critical="false" date="Fri Jan 12 16:35:31 EET 2018" description="" homePage="www.jgreibus.lt"
+                    id="1985"
+                    mdVersionMax="higher" mdVersionMin="18.5" name="WebpackStats2MagicDrawPlugin"
                     product="WebpackStats2MagicDrawPlugin" type="Plugin">
- <version human="0.1" internal="0.1" resource="0.1"/>
- <provider name="www.jgreibus.lt"/>
- <edition>Enterprise</edition>
- <edition>Architect</edition>
- <edition>Standard</edition>
- <installation>
-  <file from="profiles/webpack_profile.mdxml" to="profiles/webpack_profile.mdxml"/>
-  <file from="plugins/lt.jgreibus.webpackStats2MagicDraw/plugin.xml"
-        to="plugins/lt.jgreibus.webpackStats2MagicDraw/plugin.xml"/>
-  <file from="plugins/lt.jgreibus.webpackStats2MagicDraw/WebpackStats2MagicDraw.jar"
-        to="plugins/lt.jgreibus.webpackStats2MagicDraw/WebpackStats2MagicDraw.jar"/>
-  <file from="data/resourcemanager/MDR_Plugin_WebpackStats2MagicDraw_descriptor.xml"
-        to="data/resourcemanager/MDR_Plugin_WebpackStats2MagicDraw_descriptor.xml"/>
- </installation>
+    <version human="0.1" internal="0.1" resource="0.1"/>
+    <provider name="www.jgreibus.lt"/>
+    <edition>Enterprise</edition>
+    <edition>Architect</edition>
+    <edition>Standard</edition>
+    <installation>
+        <file from="profiles/webpack_profile.mdxml" to="profiles/webpack_profile.mdxml"/>
+        <file from="plugins/lt.jgreibus.webpackStats2MagicDraw/plugin.xml"
+              to="plugins/lt.jgreibus.webpackStats2MagicDraw/plugin.xml"/>
+        <file from="plugins/lt.jgreibus.webpackStats2MagicDraw/WebpackStats2MagicDraw.jar"
+              to="plugins/lt.jgreibus.webpackStats2MagicDraw/WebpackStats2MagicDraw.jar"/>
+        <file from="data/resourcemanager/MDR_Plugin_WebpackStats2MagicDraw_descriptor.xml"
+              to="data/resourcemanager/MDR_Plugin_WebpackStats2MagicDraw_descriptor.xml"/>
+    </installation>
 </resourceDescriptor>

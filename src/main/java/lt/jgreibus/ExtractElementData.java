@@ -44,7 +44,7 @@ public class ExtractElementData {
                 JsonObject m = (JsonObject) module;
                 componentList.add(new Component(m.get("name").toString(),
                         m.get("id").toString(),
-                        m.get("identifier").toString(),
+                        m.get("name").toString(),
                         extractMetadataValue(m, "description"),
                         extractMetadataValue(m, "target-version")));
             }
@@ -94,7 +94,7 @@ public class ExtractElementData {
             }
         }
 
-        int endIndex = indexList.get((indexList.indexOf(initialIndex)) + 1);
+        int endIndex = indexList.get((indexList.indexOf(initialIndex)) + 1) - 5;
 
         return sourceObject.substring(initialIndex, endIndex).replace("@" + metadatItem + " ", "");
     }
